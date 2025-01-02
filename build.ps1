@@ -19,7 +19,8 @@ $excludedPaths = @(
     "dist",
     "new",
     "build.ps1",
-    "tsconfig.json"
+    "tsconfig.json",
+    "documentation_ZEPPOS"
 )
 
 # Copy all non-TypeScript files
