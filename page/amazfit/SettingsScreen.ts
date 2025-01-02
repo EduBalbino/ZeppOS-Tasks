@@ -129,14 +129,14 @@ class SettingsScreen extends ConfiguredListScreen {
         param: JSON.stringify({})
       })
     });
-    // this.row({
-    //   text: t("Help index"),
-    //   icon: "icon_s/help.png",
-    //   onTap: () => hmApp.gotoPage({
-    //     url: `page/amazfit/MarkdownReader`,
-    //     param: "index.md"
-    //   })
-    // });
+    this.row({
+      text: t("Help index"),
+      icon: "icon_s/help.png",
+      onTap: () => hmApp.gotoPage({
+        url: `page/amazfit/MarkdownReader`,
+        param: "index.md"
+      })
+    });
   }
 }
 

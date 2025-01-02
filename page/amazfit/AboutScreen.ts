@@ -23,6 +23,9 @@ class AboutScreen extends BaseAboutScreen {
     this.iconSize = 100;
     this.iconFile = "icon_about.png";
 
+    this.helpText = t("Help");
+    this.helpUrl = "page/amazfit/MarkdownReader?param=index.md";
+
     this.infoRows = [
       ["melianmiko", "Developer"],
     ];
