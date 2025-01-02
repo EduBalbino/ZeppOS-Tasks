@@ -4,14 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "powershell -File ./build.ps1 && cd new && zeus build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "zeppos-device-types-v1": "^1.0.9"
-  },
-  "dependencies": {
-    "@zeppos/zeus-cli": "^1.3.0-beta.9"
   }
 }
