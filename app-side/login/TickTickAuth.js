@@ -1,4 +1,6 @@
-import {CALLBACK_URL, TICK_TICK_CLIENT_ID, TICK_TICK_CLIENT_SECRET} from "../Config";
+const TICK_TICK_CLIENT_ID = "";
+const TICK_TICK_CLIENT_SECRET = "";
+const CALLBACK_URL = "";
 
 const REQUIRED_SCOPE = "tasks:write tasks:read";
 

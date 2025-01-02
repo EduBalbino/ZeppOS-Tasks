@@ -1,6 +1,7 @@
-import {OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, CALLBACK_URL} from "../Config";
-
 const REQUIRED_SCOPE = "https://www.googleapis.com/auth/tasks";
+const OAUTH_CLIENT_ID = "";
+const OAUTH_CLIENT_SECRET = "";
+const CALLBACK_URL = "";
 
 export class GoogleAuth {
   async onLoginRequest(_) {

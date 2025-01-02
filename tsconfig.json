@@ -1,0 +1,19 @@
+{
+  "exclude": [
+    "node_modules",
+    "new"
+  ],
+  "compilerOptions": {
+    "target": "es6",
+    "rootDir": "./",
+    "outDir": "./new",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "module": "es6",
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "**/*.ts"
+  ]
+}
