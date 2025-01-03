@@ -5,8 +5,7 @@ import {
   SCREEN_HEIGHT 
 } from "../lib/mmk/UiParams";
 
-// Get global data with type assertions
-const { messageBuilder, t } = (getApp() as any)._options.globalData;
+const { messageBuilder } = getApp()._options.globalData;
 
 interface RequestData {
   package: string;
@@ -72,11 +71,11 @@ export function createSpinner(): () => void {
 
 export function getOfflineInfo(err: string): string {
   if(err.startsWith("Timed out"))
-    return t("Work offline, connection timed out");
+    return "Work offline, connection timed out";
 
   switch(err) {
     case "login_first":
-      return t("Log into your Google account via Zepp app to use all features");
+      return "Log into your Google account via Zepp app to use all features";
     default:
       return err;
   }

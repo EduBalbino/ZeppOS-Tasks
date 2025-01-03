@@ -4,7 +4,7 @@ import { ConfiguredListScreen } from "../ConfiguredListScreen";
 import { TouchEventManager } from "../../lib/mmk/TouchEventManager";
 
 // Get global data with type assertions
-const { t, config, tasksProvider, messageBuilder } = (getApp() as any)._options.globalData;
+const { config, tasksProvider, messageBuilder } = (getApp() as any)._options.globalData;
 
 interface HomeScreenParams {
   page?: string;
@@ -50,13 +50,14 @@ class HomeScreen extends ConfiguredListScreen {
     // Loading spinner
     this.hideSpinner = createSpinner();
 
+    // First chain: notify offline status
     messageBuilder.request({
       package: "tasks_login",
       action: "notify_offline",
       value: config.get("forever_offline", false),
-    }, {})
+    }, {}).catch((e: Error) => console.log('Notify offline error:', e.message));
 
-    // Load task lists
+    // Second chain: load task lists
     tasksProvider.init().then(() => {
       return tasksProvider.getTaskLists();
     }).then((lists: TaskList[]) => {
@@ -138,7 +139,7 @@ class HomeScreen extends ConfiguredListScreen {
         }
       },
       {
-        text: t("New…"),
+        text: "New…",
         icon: "icon_s/new.png",
         callback: () => this.openNewNoteUI(),
         card: {
@@ -149,14 +150,14 @@ class HomeScreen extends ConfiguredListScreen {
     ])
 
     // Tasks
-    this.headline(t(this.cachedMode ? "Offline tasks:" : "Tasks:"));
+    this.headline(this.cachedMode ? "Offline tasks:" : "Tasks:");
     
     const tasks = this.taskData?.tasks || [];
     this.batchCreateItems(tasks);
 
     if(tasks.length === 0) {
       this.text({
-        text: t("There's no incomplete tasks in that list")
+        text: "There's no incomplete tasks in that list"
       });
     }
 
@@ -204,7 +205,7 @@ class HomeScreen extends ConfiguredListScreen {
     const row = this.row({
       text: title,
       card: {
-        hiddenButton: t("Edit"),
+        hiddenButton: "Edit",
         hiddenButtonCallback: () => {
           hmApp.gotoPage({
             url: `page/amazfit/TaskEditScreen`,
@@ -263,7 +264,7 @@ class HomeScreen extends ConfiguredListScreen {
     });
 
     this.row({
-      text: t("Use application without sync"),
+      text: "Use application without sync",
       icon: "icon_s/mode_offline.png",
       onTap: () => {
         console.log("[HomeScreen] Setting up offline mode");
@@ -281,7 +282,7 @@ Page({
   onInit(params: string = '') {
     console.log("HomePage.build()");
     hmUI.setStatusBarVisible(true);
-    hmUI.updateStatusBarTitle(t("Tasks"));
+    hmUI.updateStatusBarTitle("Tasks");
 
     hmApp.setScreenKeep(true);
     hmSetting.setBrightScreen(15);

@@ -1,24 +1,31 @@
-import { FontSizeSetupScreen } from "../../lib/mmk/FontSizeSetupScreen";
+import { ListScreen } from "../../lib/mmk/ListScreen";
+import { BASE_FONT_SIZE } from "../../lib/mmk/UiParams";
 
-// Get global data with type assertions
-const { config } = (getApp() as any)._options.globalData;
+const { config } = getApp()._options.globalData;
 
-class ConfiguredFontSizeSetupScreen extends FontSizeSetupScreen {
-  protected getSavedFontSize(fallback: number): number {
-    return config.get("fontSize", fallback);
-  }
+function getFontSize(fallback: number): number {
+  return config.get("fontSize", fallback);
+}
 
-  protected onChange(value: number): void {
-    config.set("fontSize", value);
+function setFontSize(value: number): void {
+  config.set("fontSize", value);
+}
+
+class FontSizeSetupScreen extends ListScreen {
+  build(): void {
+    this.headline("Font size:");
+    this.text({
+      text: "Tap on text to change size",
+      fontSize: getFontSize(BASE_FONT_SIZE)
+    });
   }
 }
 
-// Page configuration
 Page({
   onInit() {
     hmUI.setStatusBarVisible(true);
     hmUI.updateStatusBarTitle("");
 
-    new ConfiguredFontSizeSetupScreen().start();
+    new FontSizeSetupScreen().build();
   }
 }) 

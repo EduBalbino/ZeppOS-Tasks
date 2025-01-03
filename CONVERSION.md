@@ -207,6 +207,157 @@ const config: Required<Config> = {
 5. Use `Partial<T>` when making all properties optional
 6. Always type event handlers and callbacks
 
+## Best Practices for ZEPP OS Development
+
+### 1. Code Organization
+- Separate structure, style and behavior into different files
+- Use class-based organization for complex logic
+- Keep UI rendering and event dispatching in main page files
+- Store styles in separate `.styles.ts` files
+- Example structure:
+```typescript
+// page.ts
+import { TEXT_STYLE } from './page.styles'
+import TextClass from './text.class'
+
+Page({
+  state: {
+    textInstance: null as TextClass | null
+  },
+  build() {
+    this.state.textInstance = new TextClass()
+    this.buildUI()
+  }
+})
+
+// page.styles.ts
+export const TEXT_STYLE: HmUIWidgetOptions = {
+  x: px(96),
+  y: px(40),
+  w: px(288),
+  h: px(46),
+  color: 0xffffff,
+  text_size: px(36)
+}
+```
+
+### 2. Screen Adaptation
+- Use the built-in `px()` function for consistent scaling across devices
+- Organize styles separately for round vs square screens
+- Handle status bar presence on square screens
+- Example:
+```typescript
+interface StyleConfig {
+  round: HmUIWidgetOptions;
+  square: HmUIWidgetOptions;
+}
+
+const STYLES: StyleConfig = {
+  round: {
+    x: px(96),
+    y: px(40)
+  },
+  square: {
+    x: px(32), 
+    y: px(64) // Account for status bar
+  }
+}
+```
+
+### 3. Widget Management
+- Use GROUP widgets to manage related UI elements
+- Benefits:
+  - Unified visibility control
+  - Simplified positioning
+  - Better event handling
+- Example:
+```typescript
+interface GroupConfig extends HmUIWidgetOptions {
+  children?: HmUIWidget[];
+}
+
+const group = hmUI.createWidget(hmUI.widget.GROUP, {
+  x: px(0),
+  y: px(0),
+  w: px(480),
+  h: px(80)
+}) as HmUIWidget
+
+// Children use relative positioning
+const icon = group.createWidget(hmUI.widget.IMG, {
+  x: px(20),
+  y: px(20)
+})
+```
+
+### 4. Data Persistence
+- Use `LocalStorage` class to wrap `hmFS` operations
+- Example:
+```typescript
+interface StorageOptions {
+  fileName: string;
+}
+
+class LocalStorage {
+  constructor(options: StorageOptions) {
+    this.fileName = options.fileName
+  }
+
+  set<T>(data: T): void {
+    // Implementation using hmFS
+  }
+
+  get<T>(): T | null {
+    // Implementation using hmFS
+  }
+}
+```
+
+### 5. Cross-Page Communication
+- Use URL parameters for one-way data passing
+- Use global app state for bi-directional communication
+- Example:
+```typescript
+interface PageParams {
+  id: string;
+  type: string;
+}
+
+// Sending
+hmApp.gotoPage({
+  url: 'path/to/page',
+  param: JSON.stringify({
+    id: '0',
+    type: 'normal'
+  } as PageParams)
+})
+
+// Receiving
+Page({
+  onInit(params: string) {
+    const data = JSON.parse(params) as PageParams
+  }
+})
+```
+
+### 6. Runtime Restrictions
+- No dynamic code execution (`eval`, `new Function`)
+- No Promise support (use polyfill if needed)
+- No Generator functions
+- No built-in timers (use ZEPP OS timer API)
+
+### 7. Debugging
+- Use `HmLogger` for device app logging
+- Use `console.log` for settings app and side service
+- Example:
+```typescript
+const logger = DeviceRuntimeCore.HmLogger.getLogger('debug')
+
+logger.log('info message')
+logger.error('error message')
+logger.warn('warning message')
+```
+
 ## Common Gotchas
 
 1. ZEPP OS global objects (`hmUI`, `hmApp`, etc.) don't have TypeScript definitions by default

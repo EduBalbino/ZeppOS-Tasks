@@ -1,8 +1,7 @@
 import { ListScreen } from "../lib/mmk/ListScreen";
 import { BASE_FONT_SIZE } from "../lib/mmk/UiParams";
 
-// Get global data with type assertions
-const { config } = (getApp() as any)._options.globalData;
+const { config } = getApp()._options.globalData;
 
 export class ConfiguredListScreen extends ListScreen {
   protected accentColor: number;

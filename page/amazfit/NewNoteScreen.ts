@@ -23,8 +23,8 @@ class NewNoteScreen extends ConfiguredListScreen {
 
     this.params = JSON.parse(params) as NewNoteParams;
     this.board = new ScreenBoard();
-    this.board.title = t("New note:");
-    this.board.confirmButtonText = t("Create");
+    this.board.title = "New note:";
+    this.board.confirmButtonText = "Create";
     this.board.onConfirm = (v: string) => this.doCreateTask(v);
   }
 

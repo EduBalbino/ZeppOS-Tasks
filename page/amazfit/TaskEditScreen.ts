@@ -2,8 +2,7 @@ import { ListScreen } from "../../lib/mmk/ListScreen";
 import { ScreenBoard } from "../../lib/mmk/ScreenBoard";
 import { createSpinner } from "../Utils";
 
-// Get global data with type assertions
-const { t, tasksProvider } = (getApp() as any)._options.globalData;
+const { tasksProvider } = getApp()._options.globalData;
 
 interface TaskEditParams {
   list_id: string;
@@ -21,11 +20,17 @@ interface TaskList {
   getTask: (taskId: string) => EditableTask;
 }
 
+// Define widget types based on hmUI namespace
+interface RowWidget {
+  textView?: ReturnType<typeof hmUI.createWidget>;
+  iconView?: ReturnType<typeof hmUI.createWidget>;
+}
+
 class TaskEditScreen extends ListScreen {
   private isSaving: boolean;
   private task: EditableTask;
   private board!: ScreenBoard;
-  private deleteRow: any; // Will be set by row() method
+  private deleteRow!: RowWidget;
 
   constructor(param: string) {
     super();
@@ -50,9 +55,9 @@ class TaskEditScreen extends ListScreen {
       fontSize: this.fontSize + 2
     });
     this.offset(16);
-    this.headline(t("Actions"));
+    this.headline("Actions");
     this.row({
-      text: t("Edit"),
+      text: "Edit",
       icon: "icon_s/edit.png",
       onTap: () => {
         this.board.visible = true;
@@ -61,7 +66,7 @@ class TaskEditScreen extends ListScreen {
       }
     });
     this.deleteRow = this.row({
-      text: t("Delete"),
+      text: "Delete",
       icon: "icon_s/delete.png",
       onTap: () => this.doDelete()
     })
@@ -70,7 +75,7 @@ class TaskEditScreen extends ListScreen {
     this.board = new ScreenBoard();
     this.board.title = "Edit task";
     this.board.value = this.task.title;
-    this.board.confirmButtonText = t("Save");
+    this.board.confirmButtonText = "Save";
     this.board.onConfirm = (v: string) => this.doOverrideTitle(v);
     this.board.visible = false;
   }
@@ -79,7 +84,7 @@ class TaskEditScreen extends ListScreen {
     if(this.isSaving) return;
 
     this.isSaving = true;
-    this.deleteRow.textView?.setProperty(hmUI.prop.TEXT, t("Deleting…"));
+    this.deleteRow.textView?.setProperty(hmUI.prop.TEXT, "Deleting…");
 
     createSpinner();
     this.task.delete().then(() => {
@@ -91,7 +96,7 @@ class TaskEditScreen extends ListScreen {
     if(this.isSaving) return;
 
     this.isSaving = true;
-    this.board.confirmButtonText = t("Saving, wait…");
+    this.board.confirmButtonText = "Saving, wait…";
     this.task.setTitle(value).then(() => {
       hmApp.goBack();
     })

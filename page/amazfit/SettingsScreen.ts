@@ -32,7 +32,7 @@ class SettingsScreen extends ConfiguredListScreen {
 
     // Lists picker
     if(this.mode !== "cached") {
-      this.headline(t('Task lists:'));
+      this.headline("Task lists:");
       this.lists.forEach(({ id, title }) => this.row({
         text: title,
         icon: "icon_s/list.png",
@@ -42,16 +42,16 @@ class SettingsScreen extends ConfiguredListScreen {
 
     // UI settings
     if(this.mode !== "setup") {
-      this.headline(t("User interface:"));
+      this.headline("User interface:");
       this.row({
-        text: t("Font size…"),
+        text: "Font size…",
         icon: "icon_s/font_size.png",
         onTap: () => hmApp.gotoPage({
           url: `page/amazfit/FontSizeSetupScreen`
         })
       });
       this.row({
-        text: t("Keyboard…"),
+        text: "Keyboard…",
         icon: "icon_s/keyboard.png",
         onTap: () => hmApp.gotoPage({
           url: `page/amazfit/ScreenBoardSetup`
@@ -59,7 +59,7 @@ class SettingsScreen extends ConfiguredListScreen {
       });
       if(this.mode !== "cached" && tasksProvider && !tasksProvider.cantListCompleted)
         this.row({
-          text: t("Show complete tasks"),
+          text: "Show complete tasks",
           icon:  `icon_s/cb_${config.get("withComplete", false)}.png`,
           onTap: () => {
             config.set("withComplete", !config.get("withComplete", false));
@@ -70,21 +70,21 @@ class SettingsScreen extends ConfiguredListScreen {
 
     // Advanced settings
     if(this.mode !== "setup") {
-      this.headline(t("Advanced:"));
+      this.headline("Advanced:");
       if(config.get("forever_offline", false)) {
         this.row({
-          text: t("Remove completed tasks"),
+          text: "Remove completed tasks",
           icon: "icon_s/cleanup.png",
           onTap: () => this.offlineRemoveComplete()
         })
       }
       this.row({
-        text: t("Wipe ALL local data"),
+        text: "Wipe ALL local data",
         icon: "icon_s/wipe_all.png",
         onTap: () => this.wipeEverything()
       });
       if(this.mode !== "offline") this.text({
-        text: t("Option above didn't delete any data from your Google account"),
+        text: "Option above didn't delete any data from your Google account",
         fontSize: this.fontSize - 2,
         color: 0x999999
       });
@@ -106,7 +106,7 @@ class SettingsScreen extends ConfiguredListScreen {
   private wipeEverything(): void {
     if(this.wipeConfirm > 0) {
       this.wipeConfirm--;
-      return hmUI.showToast({text: t("Tap again to confirm")});
+      return hmUI.showToast({text: "Tap again to confirm"});
     }
 
     config.wipe();
@@ -122,7 +122,7 @@ class SettingsScreen extends ConfiguredListScreen {
 
   private buildHelpItems(): void {
     this.row({
-      text: t("About…"),
+      text: "About…",
       icon: "icon_s/about.png",
       onTap: () => hmApp.gotoPage({
         url: `page/amazfit/AboutScreen`,
@@ -130,7 +130,7 @@ class SettingsScreen extends ConfiguredListScreen {
       })
     });
     this.row({
-      text: t("Help index"),
+      text: "Help index",
       icon: "icon_s/help.png",
       onTap: () => hmApp.gotoPage({
         url: `page/amazfit/MarkdownReader`,

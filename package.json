@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "powershell -File ./build.ps1 && cd new && zeus build",
+    "build": "powershell -File ./build.ps1 && cd new && zeus build --target band7",
+    "dev": "powershell -File ./build.ps1 && cd new && zeus dev --target band7",
     "update": "tsc --project . --outDir \"./new\""
   },
   "author": "",
